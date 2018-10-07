@@ -6,6 +6,7 @@ import codecs
 
 data_directory = "./data/facebook-alexandrumeterez/messages/"
 
+
 def extract_messages(file_json):
     lines = {}
     messages = file_json['messages']
@@ -47,20 +48,21 @@ def extract_sentence_pairs(conversations):
         # Iterate over all the lines of the conversation
         for i in range(len(conversation["lines"]) - 1):  # We ignore the last line (no answer for it)
             inputLine = conversation["lines"][i]["content"].strip()
-            targetLine = conversation["lines"][i+1]["content"].strip()
+            targetLine = conversation["lines"][i + 1]["content"].strip()
             # Filter wrong samples (if one of the lists is empty)
             if inputLine and targetLine and len(inputLine) > 0 and len(targetLine) > 0:
                 qa_pairs.append([inputLine, targetLine])
     return qa_pairs
 
-if __name__ == "__main__":
-    conversations = load_conversations(data_directory)
-    pairs = extract_sentence_pairs(conversations)
-    pairs = list(filter(lambda x: len(x) == 2, pairs))
-    delimiter = '\t'
-    # Unescape the delimiter
-    delimiter = str(codecs.decode(delimiter, "unicode_escape"))
-    with open("./data/datafile", 'w', encoding='utf-8') as outputfile:
-        writer = csv.writer(outputfile, delimiter=delimiter)
-        for pair in pairs:
-            writer.writerow(pair)
+
+# if __name__ == "__main__":
+#     conversations = load_conversations(data_directory)
+#     pairs = extract_sentence_pairs(conversations)
+#     pairs = list(filter(lambda x: len(x) == 2, pairs))
+#     delimiter = '\t'
+#     # Unescape the delimiter
+#     delimiter = str(codecs.decode(delimiter, "unicode_escape"))
+#     with open("./data/datafile", 'w', encoding='utf-8') as outputfile:
+#         writer = csv.writer(outputfile, delimiter=delimiter)
+#         for pair in pairs:
+#             writer.writerow(pair)
